@@ -1,11 +1,18 @@
 import './ChatList.css'
 
-function ChatList({ chats, activeChat, onChatSelect, onNewChat }) {
+function ChatList({ chats, activeChat, onChatSelect, onNewChat, darkMode, onToggleDarkMode }) {
   return (
     <div className="chat-list">
       <div className="chat-list-header">
         <h2>Chats</h2>
-        <button className="new-chat-btn" onClick={onNewChat}>+</button>
+        <div className="header-buttons">
+          <div className="theme-toggle" onClick={onToggleDarkMode}>
+            <div className={`toggle-slider ${darkMode ? 'dark' : 'light'}`}>
+              <span className="toggle-icon">{darkMode ? '🌙' : '☀️'}</span>
+            </div>
+          </div>
+          <button className="new-chat-btn" onClick={onNewChat}>+</button>
+        </div>
       </div>
       <div className="chat-items">
         {chats.map(chat => (

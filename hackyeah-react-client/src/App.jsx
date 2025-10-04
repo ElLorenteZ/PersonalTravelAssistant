@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ChatList from './components/ChatList'
 import ChatMessages from './components/ChatMessages'
 import ChatInput from './components/ChatInput'
@@ -15,6 +15,11 @@ function App() {
     // { id: 2, text: 'I can help you with that! What would you like to know?', sender: 'bot' }
   ])
   const [isLoading, setIsLoading] = useState(false)
+  const [darkMode, setDarkMode] = useState(true)
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', darkMode ? 'dark' : 'light')
+  }, [darkMode])
 
   const handleSend = async (text) => {
     // Add user message
@@ -52,6 +57,8 @@ function App() {
         activeChat={activeChat}
         onChatSelect={setActiveChat}
         onNewChat={handleNewChat}
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode(!darkMode)}
       />
       <div className="chat-area">
         <ChatMessages messages={messages} />
