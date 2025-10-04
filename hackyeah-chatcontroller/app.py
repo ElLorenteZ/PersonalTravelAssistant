@@ -1,8 +1,10 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from chat_service import ChatService
 
 app = Flask(__name__)
+CORS(app)
 chat_service = ChatService(api_key=os.getenv('OPENAI_API_KEY'))
 
 @app.route('/api/v1/chat', methods=['POST'])
