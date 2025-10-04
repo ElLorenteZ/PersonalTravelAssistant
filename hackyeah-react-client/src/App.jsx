@@ -26,16 +26,22 @@ function App() {
     const userMessage = { id: messages.length + 1, text, sender: 'user' }
     setMessages(prev => [...prev, userMessage])
 
+    // Add loading message
+    const loadingMessage = { id: messages.length + 2, text: '...', sender: 'bot', isLoading: true }
+    setMessages(prev => [...prev, loadingMessage])
+
     setIsLoading(true)
     try {
       // Call API and get response
       const response = await sendMessage(text)
 
-      // Add bot response
+      // Replace loading message with bot response
+      setMessages(prev => prev.slice(0, -1))
       const botMessage = { id: messages.length + 2, text: response, sender: 'bot' }
       setMessages(prev => [...prev, botMessage])
     } catch (error) {
-      // Add error message
+      // Replace loading message with error
+      setMessages(prev => prev.slice(0, -1))
       const errorMessage = { id: messages.length + 2, text: `Error: ${error.message}`, sender: 'bot' }
       setMessages(prev => [...prev, errorMessage])
     } finally {
@@ -61,7 +67,7 @@ function App() {
         onToggleDarkMode={() => setDarkMode(!darkMode)}
       />
       <div className="chat-area">
-        <ChatMessages messages={messages} />
+        <ChatMessages messages={messages} isLoading={isLoading} />
         <ChatInput onSend={handleSend} isLoading={isLoading} />
       </div>
     </div>

@@ -23,7 +23,7 @@ function ChatInput({ onSend, isLoading }) {
         disabled={isLoading}
       />
       <button onClick={handleSend} className="send-btn" disabled={isLoading}>
-        {isLoading ? '...' : 'Send'}
+        Send
       </button>
     </div>
   )
