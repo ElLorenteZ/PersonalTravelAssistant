@@ -4,3 +4,4 @@ torch>=2.0.0
 openai
 httpx
 flask
+flask_cors

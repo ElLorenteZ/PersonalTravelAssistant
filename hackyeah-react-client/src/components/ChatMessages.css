@@ -26,12 +26,33 @@
   word-wrap: break-word;
 }
 
+.message-content p {
+  margin: 0 0 0.5rem 0;
+}
+
+.message-content p:last-child {
+  margin-bottom: 0;
+}
+
 .message.user .message-content {
-  background: #646cff;
+  background: #4a9eff;
   color: white;
 }
 
 .message.bot .message-content {
   background: #2a2a2a;
   color: white;
+}
+
+.message-content.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
