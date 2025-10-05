@@ -7,28 +7,37 @@ import './App.css'
 
 function App() {
   const [chats, setChats] = useState([
-    { id: 1, title: 'Planning next trip', preview: 'Looking for recommendations...' }
+    { id: 1, title: 'Planning next trip', preview: '' }
   ])
   const [activeChat, setActiveChat] = useState(1)
-  const [messages, setMessages] = useState([
-    // { id: 1, text: 'Hello! I want to plan a trip to Paris', sender: 'user' },
-    // { id: 2, text: 'I can help you with that! What would you like to know?', sender: 'bot' }
-  ])
+  const [chatMessages, setChatMessages] = useState({
+    1: []
+  })
   const [isLoading, setIsLoading] = useState(false)
   const [darkMode, setDarkMode] = useState(true)
+
+  const messages = chatMessages[activeChat] || []
 
   useEffect(() => {
     document.body.setAttribute('data-theme', darkMode ? 'dark' : 'light')
   }, [darkMode])
 
   const handleSend = async (text) => {
+    const currentMessages = chatMessages[activeChat] || []
+
     // Add user message
-    const userMessage = { id: messages.length + 1, text, sender: 'user' }
-    setMessages(prev => [...prev, userMessage])
+    const userMessage = { id: currentMessages.length + 1, text, sender: 'user' }
+    setChatMessages(prev => ({
+      ...prev,
+      [activeChat]: [...currentMessages, userMessage]
+    }))
 
     // Add loading message
-    const loadingMessage = { id: messages.length + 2, text: '...', sender: 'bot', isLoading: true }
-    setMessages(prev => [...prev, loadingMessage])
+    const loadingMessage = { id: currentMessages.length + 2, text: '...', sender: 'bot', isLoading: true }
+    setChatMessages(prev => ({
+      ...prev,
+      [activeChat]: [...prev[activeChat], loadingMessage]
+    }))
 
     setIsLoading(true)
     try {
@@ -36,14 +45,26 @@ function App() {
       const response = await sendMessage(text)
 
       // Replace loading message with bot response
-      setMessages(prev => prev.slice(0, -1))
-      const botMessage = { id: messages.length + 2, text: response, sender: 'bot' }
-      setMessages(prev => [...prev, botMessage])
+      setChatMessages(prev => ({
+        ...prev,
+        [activeChat]: prev[activeChat].slice(0, -1)
+      }))
+      const botMessage = { id: currentMessages.length + 2, text: response, sender: 'bot' }
+      setChatMessages(prev => ({
+        ...prev,
+        [activeChat]: [...prev[activeChat], botMessage]
+      }))
     } catch (error) {
       // Replace loading message with error
-      setMessages(prev => prev.slice(0, -1))
-      const errorMessage = { id: messages.length + 2, text: `Error: ${error.message}`, sender: 'bot' }
-      setMessages(prev => [...prev, errorMessage])
+      setChatMessages(prev => ({
+        ...prev,
+        [activeChat]: prev[activeChat].slice(0, -1)
+      }))
+      const errorMessage = { id: currentMessages.length + 2, text: `Error: ${error.message}`, sender: 'bot' }
+      setChatMessages(prev => ({
+        ...prev,
+        [activeChat]: [...prev[activeChat], errorMessage]
+      }))
     } finally {
       setIsLoading(false)
     }
@@ -51,21 +72,29 @@ function App() {
 
   const handleNewChat = () => {
     const newId = chats.length + 1
-    setChats([...chats, { id: newId, title: `New Chat ${newId}`, preview: 'Start chatting...' }])
+    setChats([...chats, { id: newId, title: `New Chat ${newId}`, preview: '' }])
     setActiveChat(newId)
-    setMessages([])
+    setChatMessages(prev => ({
+      ...prev,
+      [newId]: []
+    }))
   }
 
   const handleDeleteChat = (chatId) => {
     const updatedChats = chats.filter(chat => chat.id !== chatId)
     setChats(updatedChats)
 
-    // If deleting the active chat, switch to another chat or clear messages
+    // Remove messages for deleted chat
+    setChatMessages(prev => {
+      const newMessages = { ...prev }
+      delete newMessages[chatId]
+      return newMessages
+    })
+
+    // If deleting the active chat, switch to another chat
     if (activeChat === chatId) {
       if (updatedChats.length > 0) {
         setActiveChat(updatedChats[0].id)
-      } else {
-        setMessages([])
       }
     }
   }
