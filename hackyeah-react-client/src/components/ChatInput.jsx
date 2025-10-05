@@ -18,7 +18,7 @@ function ChatInput({ onSend, isLoading }) {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-        placeholder="Type your message..."
+        placeholder="What's your next destination?"
         className="message-input"
         disabled={isLoading}
       />

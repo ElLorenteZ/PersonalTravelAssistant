@@ -121,6 +121,24 @@
 .chat-item h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1rem;
+  cursor: text;
+}
+
+.chat-title-input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #4a9eff;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  color: inherit;
+  font-size: 1rem;
+  font-family: inherit;
+  margin-bottom: 0.5rem;
+}
+
+.chat-title-input:focus {
+  outline: none;
+  border-color: #2b7fd9;
 }
 
 .chat-item p {

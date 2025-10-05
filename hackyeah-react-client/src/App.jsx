@@ -7,7 +7,7 @@ import './App.css'
 
 function App() {
   const [chats, setChats] = useState([
-    { id: 1, title: 'Planning next trip', preview: '' }
+    { id: 1, title: 'New journey', preview: '' }
   ])
   const [activeChat, setActiveChat] = useState(1)
   const [chatMessages, setChatMessages] = useState({
@@ -72,7 +72,7 @@ function App() {
 
   const handleNewChat = () => {
     const newId = chats.length + 1
-    setChats([...chats, { id: newId, title: `New Chat ${newId}`, preview: '' }])
+    setChats([...chats, { id: newId, title: `New journey ${newId}`, preview: '' }])
     setActiveChat(newId)
     setChatMessages(prev => ({
       ...prev,
@@ -99,6 +99,12 @@ function App() {
     }
   }
 
+  const handleRenameChat = (chatId, newTitle) => {
+    setChats(chats.map(chat =>
+      chat.id === chatId ? { ...chat, title: newTitle } : chat
+    ))
+  }
+
   return (
     <div className="app-container">
       <ChatList
@@ -107,6 +113,7 @@ function App() {
         onChatSelect={setActiveChat}
         onNewChat={handleNewChat}
         onDeleteChat={handleDeleteChat}
+        onRenameChat={handleRenameChat}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
       />

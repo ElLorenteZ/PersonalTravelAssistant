@@ -1,10 +1,34 @@
+import { useState } from 'react'
 import './ChatList.css'
 
-function ChatList({ chats, activeChat, onChatSelect, onNewChat, onDeleteChat, darkMode, onToggleDarkMode }) {
+function ChatList({ chats, activeChat, onChatSelect, onNewChat, onDeleteChat, onRenameChat, darkMode, onToggleDarkMode }) {
+  const [editingId, setEditingId] = useState(null)
+  const [editTitle, setEditTitle] = useState('')
+
+  const handleDoubleClick = (chat) => {
+    setEditingId(chat.id)
+    setEditTitle(chat.title)
+  }
+
+  const handleSaveTitle = (chatId) => {
+    if (editTitle.trim()) {
+      onRenameChat(chatId, editTitle.trim())
+    }
+    setEditingId(null)
+  }
+
+  const handleKeyDown = (e, chatId) => {
+    if (e.key === 'Enter') {
+      handleSaveTitle(chatId)
+    } else if (e.key === 'Escape') {
+      setEditingId(null)
+    }
+  }
+
   return (
     <div className="chat-list">
       <div className="chat-list-header">
-        <h2>Chats</h2>
+        <h2>Travel Log</h2>
         <div className="header-buttons">
           <div className="theme-toggle" onClick={onToggleDarkMode}>
             <div className={`toggle-slider ${darkMode ? 'dark' : 'light'}`}>
@@ -36,7 +60,20 @@ function ChatList({ chats, activeChat, onChatSelect, onNewChat, onDeleteChat, da
             className={`chat-item ${activeChat === chat.id ? 'active' : ''}`}
           >
             <div className="chat-item-content" onClick={() => onChatSelect(chat.id)}>
-              <h3>{chat.title}</h3>
+              {editingId === chat.id ? (
+                <input
+                  type="text"
+                  className="chat-title-input"
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  onBlur={() => handleSaveTitle(chat.id)}
+                  onKeyDown={(e) => handleKeyDown(e, chat.id)}
+                  autoFocus
+                  onClick={(e) => e.stopPropagation()}
+                />
+              ) : (
+                <h3 onDoubleClick={() => handleDoubleClick(chat)}>{chat.title}</h3>
+              )}
               <p>{chat.preview}</p>
             </div>
             <button
