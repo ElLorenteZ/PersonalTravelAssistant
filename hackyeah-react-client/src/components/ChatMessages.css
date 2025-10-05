@@ -26,6 +26,14 @@
   word-wrap: break-word;
 }
 
+.message-content p {
+  margin: 0 0 0.5rem 0;
+}
+
+.message-content p:last-child {
+  margin-bottom: 0;
+}
+
 .message.user .message-content {
   background: #4a9eff;
   color: white;

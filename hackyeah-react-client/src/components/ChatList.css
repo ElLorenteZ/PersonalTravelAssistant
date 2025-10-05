@@ -49,31 +49,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
 }
 
 .toggle-slider.dark {
   left: 2px;
   background: #1a1a1a;
+  color: #fff;
 }
 
 .toggle-slider.light {
   transform: translateX(20px);
   left: 2px;
   background: white;
+  color: #f59e0b;
+}
+
+.toggle-slider svg {
+  display: block;
 }
 
 .new-chat-btn {
   background: #4a9eff;
   border: none;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.7rem;
   border-radius: 0.5rem;
-  font-size: 1.5rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.new-chat-btn svg {
+  display: block;
 }
 
 .new-chat-btn:hover {
@@ -90,6 +98,10 @@
   border-bottom: 1px solid #333;
   cursor: pointer;
   transition: background 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
 }
 
 .chat-item:hover {
@@ -98,6 +110,12 @@
 
 .chat-item.active {
   background: rgba(74, 158, 255, 0.2);
+}
+
+.chat-item-content {
+  flex: 1;
+  min-width: 0;
+  padding-right: 2rem;
 }
 
 .chat-item h3 {
@@ -112,4 +130,30 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.delete-chat-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #888;
+  transition: color 0.2s, background 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.delete-chat-btn:hover {
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.1);
+  border-radius: 0.25rem;
+}
+
+.delete-chat-btn svg {
+  display: block;
 }

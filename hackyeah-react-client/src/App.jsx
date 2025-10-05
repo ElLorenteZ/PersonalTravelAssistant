@@ -56,6 +56,20 @@ function App() {
     setMessages([])
   }
 
+  const handleDeleteChat = (chatId) => {
+    const updatedChats = chats.filter(chat => chat.id !== chatId)
+    setChats(updatedChats)
+
+    // If deleting the active chat, switch to another chat or clear messages
+    if (activeChat === chatId) {
+      if (updatedChats.length > 0) {
+        setActiveChat(updatedChats[0].id)
+      } else {
+        setMessages([])
+      }
+    }
+  }
+
   return (
     <div className="app-container">
       <ChatList
@@ -63,6 +77,7 @@ function App() {
         activeChat={activeChat}
         onChatSelect={setActiveChat}
         onNewChat={handleNewChat}
+        onDeleteChat={handleDeleteChat}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
       />
