@@ -32,3 +32,9 @@ python3 app.py
 ```{bash}
 npm run dev
 ```
+
+Folder structure:
+- hackyeah-chatcontroller - python application with endpoint required to fetch client chat calls,
+- hackyeah-history-trips - contains predefined data about past travel reviews,
+- hackyeah-react-client - frontend application written in react,
+- hackyeah-vector-db-population - helper tools to mock the data related to previous user's travels.
