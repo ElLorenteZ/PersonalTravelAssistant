@@ -17,6 +17,7 @@ COLLECTION_NAME = "trip_reviews"
 
 CITIES = ["Valencia", "Barcelona", "Copenhagen", "Rome", "Geneva"]
 
+# TODO - move model call with predefined prompt to separate service and add it to model tools  
 class ChatService:
     def __init__(self, api_key=None, template_path="prompt_template.txt"):
         self.client = OpenAI(api_key=api_key or os.getenv('OPENAI_API_KEY'))
